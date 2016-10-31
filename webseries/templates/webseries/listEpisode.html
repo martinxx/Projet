@@ -1,27 +1,10 @@
 <h2>{{season.season_text}}</h2>
 
-<h2>{{season.name}}</h2>
-
-<h2>{{season.numSaison}}</h2>
-
-<img src={{serie.photo}} width="100"  height="160" alt= {{serie.name}} title="{{serie.name}}"/>
-
-<h3> Season Overview </h3>
+<h2>{{season.season_number}}</h2>
 
 
-<h3> Episodes </h3>
-
-{% if Saison.listEpisode %}
-    <ul>
-    {% for episode in season.episode_set.all %}
-       <li><a href="/webseries/{{ account.id }}/serie/{{ serie.id }}/season/{{ season.id }}"> {{episode.episode_text}} </a></li>
-
-       <img src={{episode.photo}} width="100"  height="160" alt= {{episode.name}} title="{{episode.name}}"/>
-    {% endfor %}
-    </ul>
-{% else %}
-    <p> No episodes are available.</p>
-{% endif %}
+<img src={{season.photo2}} width="100"  height="160" alt= {{serie.name}} title="{{serie.name}}"/>
 
 
 
+<p>{{season.overview2}}</p>

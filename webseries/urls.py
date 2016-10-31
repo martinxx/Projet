@@ -4,7 +4,7 @@ from . import views
 
 urlpatterns = [
     url(r'^$', views.index, name='index'),
-	# ex: /webseries/
+	#ex: /webseries/
     url(r'^ajoutCompte/$', views.ajoutCompte, name='ajoutCompte'),
     # ex: /webseries/ajoutCompte/
     url(r'^(?P<account_id>[0-9]+)/$', views.listSerie, name='listSerie'),
@@ -19,4 +19,3 @@ urlpatterns = [
   # ex: /webseries/5/serie/2/season/12
   # url(r'^/vote/$', views.ajout_compte, name='ajout_compte'),
 ]
-

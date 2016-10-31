@@ -59,52 +59,50 @@ class Season(models.Model):
     season_text = models.CharField(max_length=200,default ="Noname")
     season_number = models.IntegerField(default = 0)
 
-    def name(self):
-        return nomSaison(self.serie.serie_identifiant, self.season_identifiant)
+    # def name(self):
+    #     return nomSaison(self.serie.serie_identifiant, self.season_identifiant)
 
     def __str__(self):
         return str(self.season_text, self.season_number)
 
-    def photo(self):
-         return photoSaison(self.serie.serie_identifiant,self.numSaison)
+    def photo2(self):
+         return photoSaison(self.serie.serie_identifiant,self.season_number)
 
-    def numSaison(self):
-        return numSaisonjson(self.serie.serie_identifiant, self.season_identifiant)
-
-    def overview(self):
-        res = JSSaison(self.serie.serie_identifiant,self.numSaison)["overview"]
+ 
+    def overview2(self):
+        res = JSSaison(self.serie.serie_identifiant,self.season_number)["overview"]
         if res =="":
             return "Sorry, no overview was available in our database 😢"
         else : 
             return res
 
-    def listEpisode(self):
-        nbEpisode = JSSaison(self.season_identifiant)
-        l=[]
-        for i in range(nbEpisode):
-            l.append("Episode "+ str(i+1))
-        return l
+    # def listEpisode(self):
+    #     nbEpisode = JSSaison(self.season_identifiant)
+    #     l=[]
+    #     for i in range(nbEpisode):
+    #         l.append("Episode "+ str(i+1))
+        # return l
 
-class Episode(models.Model):
-    season = models.ForeignKey(Season, on_delete=models.CASCADE) #Cet épisode appartient à une saison spécifique
-    episode_text = models.CharField(max_length=200,default ="Noname")
-    episode_identifiant = models.IntegerField(default = 0)
+# # class Episode(models.Model):
+# #     season = models.ForeignKey(Season, on_delete=models.CASCADE) #Cet épisode appartient à une saison spécifique
+# #     episode_text = models.CharField(max_length=200,default ="Noname")
+# #     episode_identifiant = models.IntegerField(default = 0)
 
-    def name(self):
-        return nom(self.episode_identifiant)
+# #     def name(self):
+# #         return nom(self.episode_identifiant)
 
-    def __str__(self):
-        return str(self.episode_text)
+# #     def __str__(self):
+# #         return str(self.episode_text)
 
-    def photo(self):
-         return photo(self.episode_identifiant)
+# #     def photo(self):
+# #          return photo(self.episode_identifiant)
 
-    def overview(self):
-        res = JSepisode(self.episode_identifiant)["overview"]
-        if res =="":
-            return "Sorry, no overview was available in our database 😢"
-        else : 
-            return res
+# #     def overview(self):
+# #         res = JSepisode(self.episode_identifiant)["overview"]
+# #         if res =="":
+# #             return "Sorry, no overview was available in our database 😢"
+# #         else : 
+# #             return res
 
 
 

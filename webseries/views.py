@@ -26,7 +26,7 @@ def listSaison(request,account_id, serie_id):
 				l.append(existing_season)
 				found = True
 		if not found : 		
-			l.append(notreserie.season_set.create(season_text = notreserie.name()+" Saison "+str(i+1), season_number = i+1))
+			l.append(notreserie.season_set.create(season_text = thename+" Saison "+str(i+1), season_number = i+1))
 	return render(request, 'webseries/listSaison.html', {'serie': notreserie, 'account' : account})
 
 def ajoutCompte(request,nomdutexte='lol'):
