@@ -1,0 +1,25 @@
+<h1>Compte de {{ account.account_text }}</h1>
+
+{% if account.serie_set.all %}
+    <ul>
+    {% for serie in account.serie_set.all %}
+       <li><a href="{% url 'listSaison' account.id serie.id %}">{{ serie.name }}</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p> You don't follow any serie.</p>
+{% endif %}
+
+
+<form action="ajoutSerie/" method="post">
+{% csrf_token %}
+    <div>
+        <label for="nom">Nom de la série à ajouter :</label>
+        <input type="text" id="nom" name="serie_name"/>
+    <input type="submit" value="Ajouter Série" />
+</form>
+
+<div>
+
+<a href="{% url 'index' %}" > Retour à l'accueil  </a>
+</div>

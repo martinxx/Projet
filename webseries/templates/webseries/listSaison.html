@@ -1,0 +1,22 @@
+<h2>{{serie.name}}</h2>
+<img src={{serie.photo}} width="100"  height="160" alt= {{serie.name}} title="{{serie.name}}"/>
+
+<h4> Overview </h4>
+<p> {{serie.overview}} </p>
+
+<h4> Seasons </h4>
+
+{% if serie.listSaison %}
+    <ul>
+    {% for season in serie.season_set.all %}
+       <li><a href="/webseries/{{ account.id }}/serie/{{ serie.id }}/season/{{ season.id }}"> {{season.season_text}} </a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p> No seasons are available.</p>
+{% endif %}
+
+<h4> Creator(s) </h4>
+<p> {{serie.creator}} </p>
+
+

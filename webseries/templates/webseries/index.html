@@ -1,0 +1,30 @@
+{% load staticfiles %}
+<html>
+    <head>
+        <title>Page d'accueil</title>
+        <link rel="stylesheet" href="{% static 'css/webseries.css' %}">
+    </head>
+<body>
+<h1> Page d'accueil </h1>
+
+
+{% if account_list %}
+    <ul>
+    {% for account in account_list %}
+        <li><a href="{% url 'listSerie' account.id %}">{{ account.account_text }}</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No accounts are available.</p>
+{% endif %}
+
+<form action="ajoutCompte/" method="post">
+{% csrf_token %}
+    <div>
+        <label for="nom">Nom du compte  :</label>
+        <input type="text" id="nom" name="username"/>
+    <input type="submit" value="Ajouter Compte" />
+</form>
+
+ </body>
+</html>

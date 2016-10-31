@@ -1,0 +1,9 @@
+<p> Compte ajouté : {{compte_ajoute.account_text}} </p>
+<div>
+
+<a href="{% url 'index' %}" > Retour à l'accueil  </a>
+</div>
+
+<div>
+<a href="{% url 'listSerie' compte_ajoute.id %}"> Se rendre sur mon nouveau compte : {{ compte_ajoute.account_text }}</a>
+</div>

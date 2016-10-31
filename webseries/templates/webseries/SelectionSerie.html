@@ -1,0 +1,21 @@
+<HTML>
+ <HEAD>
+  <TITLE>Titre de la page</TITLE>
+ </HEAD>
+
+ <BODY>
+ 
+<h1> Par {{ serie_name }}, vous entendez sans doute l'une des séries suivantes : </h1>
+
+{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+
+<form action="SelectionSerie/" method="post">
+{% csrf_token %}
+{% for idserie,nameserie in seriesdic %}
+    <input type="radio" name="nameserie" id="idserie" value="{{ idserie }}" />
+    <label for="idserie">{{ nameserie }}</label><br />
+{% endfor %}
+<input type="submit" value="Choisi la série à ajouter" />
+</form>
+    </BODY>
+</HTML>
