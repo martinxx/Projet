@@ -39,10 +39,23 @@ def NbdeSaison(idSerie):
     js = JSserie(idSerie)
     return(int(js["number_of_seasons"]))
 
-def numSaison(idSerie):
+def nomSaison(idSerie, idSaison):
+    """Renvoie le nom de la saison"""
+    js = JSSaison(idSerie, idSaison)
+    resultat = js["name"] 
+    return resultat
+
+def numSaisonjson(idSerie, idSaison):
     """Renvoie un entier correspondant au numéro de la saison de la série"""
-    js = JSserie(idSerie)
+    js = JSSaison(idSerie, idSaison)
     return(int(js["season_number"]))
+
+def photoSaison(idSerie, numSaison):
+    """Renvoie un lien html avec la photo de la saison au format jpg"""
+    js = JSSaison(idSerie, numSaison)
+    path = js["poster_path"]
+    urllink = "https://image.tmdb.org/t/p/w500/"+str(path) 
+    return urllink
     
 def JSSaison(idSerie,numSaison, key = key):
     """Renvoie un JSON qui donne l'ensemble des épisodes de cette saison pour cette série"""

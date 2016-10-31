@@ -1,7 +1,6 @@
 from django.shortcuts import render, HttpResponse, get_object_or_404
 from .models import Account,Serie,Season
 from projetAPI import *
-from projetAPI2 import *
 # Create your views here.
 
 def index(request):
@@ -17,7 +16,6 @@ def listSerie(request, account_id):
 def listSaison(request,account_id, serie_id):
 	account = get_object_or_404(Account, pk=account_id)
 	notreserie = get_object_or_404(Serie, pk=serie_id)
-	JsonSerie = notreserie.JSON()
 	saisons_creees = Season.objects.all().filter(serie = notreserie)
 	l = []
 	thename = notreserie.name()
@@ -28,7 +26,7 @@ def listSaison(request,account_id, serie_id):
 				l.append(existing_season)
 				found = True
 		if not found : 		
-			l.append(notreserie.season_set.create(season_text = notreserie.name()+" Saison "+str(i+1)))
+			l.append(notreserie.season_set.create(season_text = notreserie.name()+" Saison "+str(i+1), season_number = i+1))
 	return render(request, 'webseries/listSaison.html', {'serie': notreserie, 'account' : account})
 
 def ajoutCompte(request,nomdutexte='lol'):
