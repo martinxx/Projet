@@ -1,7 +1,8 @@
 import datetime
 from django.db import models
 from django.utils import timezone
-from projetAPI import * # Create your models here.
+from projetAPI import * 
+import json # Create your models here.
 
 class Account(models.Model):
     account_text = models.CharField(max_length=200)
@@ -17,34 +18,42 @@ class Account(models.Model):
 class Serie(models.Model):
     account = models.ForeignKey(Account, on_delete=models.CASCADE)
     serie_identifiant = models.IntegerField(default = 0)
+    serie_json = models.CharField(max_length=200000,default ="{}")
     #a = str(serie_identifiant)
     #serie_photo = JSserie(serie_identifiant)
     
     def name(self):
-        return nom(self.serie_identifiant)
+        js = eval(self.serie_json)
+        return str(js["original_name"])
 
     def __str__(self):
         return str(self.serie_identifiant)
 
     def photo(self):
-         return photo(self.serie_identifiant)
+        js = eval(self.serie_json)
+        path = js["poster_path"]
+        urllink = "https://image.tmdb.org/t/p/w500/"+str(path) 
+        return urllink
 
     def overview(self):
-        res = JSserie(self.serie_identifiant)["overview"]
+        js = eval(self.serie_json)
+        res = js["overview"]
         if res =="":
             return "Sorry, no overview was available in our database 😢"
         else : 
             return res
 
     def listSaison(self):
-        nbSaison = NbdeSaison(self.serie_identifiant)
+        js = eval(self.serie_json)
+        nbSaison = int(js["number_of_seasons"])
         l=[]
         for i in range(nbSaison):
             l.append("Saison "+ str(i+1))
         return l
 
     def creator(self):
-        a = JSserie(self.serie_identifiant)["created_by"]
+        js = eval(self.serie_json)
+        a = js["created_by"]
         res = []
         for i in range(len(a)):
             res.append(a[i]["name"])
@@ -59,22 +68,22 @@ class Season(models.Model):
     season_text = models.CharField(max_length=200,default ="Noname")
     season_number = models.IntegerField(default = 0)
 
-    # def name(self):
-    #     return nomSaison(self.serie.serie_identifiant, self.season_identifiant)
+    def name(self):
+        return nomSaison(self.serie.serie_identifiant, self.season_identifiant)
 
-    def __str__(self):
-        return str(self.season_text, self.season_number)
+#     def __str__(self):
+#         return str(self.season_text, self.season_number)
 
-    def photo2(self):
-         return photoSaison(self.serie.serie_identifiant,self.season_number)
+#     def photo2(self):
+#          return photoSaison(self.serie.serie_identifiant,self.season_number)
 
  
-    def overview2(self):
-        res = JSSaison(self.serie.serie_identifiant,self.season_number)["overview"]
-        if res =="":
-            return "Sorry, no overview was available in our database 😢"
-        else : 
-            return res
+#     def overview2(self):
+#         res = JSSaison(self.serie.serie_identifiant,self.season_number)["overview"]
+#         if res =="":
+#             return "Sorry, no overview was available in our database 😢"
+#         else : 
+#             return res
 
     # def listEpisode(self):
     #     nbEpisode = JSSaison(self.season_identifiant)

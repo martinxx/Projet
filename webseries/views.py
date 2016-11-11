@@ -17,9 +17,10 @@ def listSaison(request,account_id, serie_id):
 	account = get_object_or_404(Account, pk=account_id)
 	notreserie = get_object_or_404(Serie, pk=serie_id)
 	saisons_creees = Season.objects.all().filter(serie = notreserie)
+	js = eval(notreserie.serie_json)
 	l = []
 	thename = notreserie.name()
-	for i in range(NbdeSaison(notreserie.serie_identifiant)):
+	for i in range(int(js["number_of_seasons"])):
 		found = False
 		for existing_season in saisons_creees : 
 			if existing_season.season_text == (thename +" Saison "+str(i+1)):
@@ -50,7 +51,7 @@ def SelectionSerie(request, account_id ):
 	"""numserie = account.choice_set.get(pk=request.POST['choice'])"""
 	numseriebrut = request.POST['nameserie']
 	numserie = int(numseriebrut[1:(len(numseriebrut)-1)])
-	serie_ajoutee = account.serie_set.create(serie_identifiant = numserie)
+	serie_ajoutee = account.serie_set.create(serie_identifiant = numserie,serie_json = JSserie(numserie))
 	#Toujours retourner un HttpResponseRedirect si รงa marche bien avec POST data(pour ne pas permettre de poster deux fois)
 	return render(request, 'webseries/ajoutSerie.html', {'serie_ajoutee': serie_ajoutee})
 
