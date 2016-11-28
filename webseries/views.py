@@ -1,5 +1,5 @@
 from django.shortcuts import render, HttpResponse, get_object_or_404
-from .models import Account,Serie,Season
+from .models import Account,Serie,Season, Episode
 from projetAPI import *
 # Create your views here.
 
@@ -15,19 +15,19 @@ def listSerie(request, account_id):
 
 def listSaison(request,account_id, serie_id):
 	account = get_object_or_404(Account, pk=account_id)
-	notreserie = get_object_or_404(Serie, pk=serie_id)
-	saisons_creees = Season.objects.all().filter(serie = notreserie)
+	serie = get_object_or_404(Serie, pk=serie_id)
+	saisons_creees = Season.objects.all().filter(serie = serie)
 	l = []
-	thename = notreserie.name()
-	for i in range(NbdeSaison(notreserie.serie_identifiant)):
+	thename = serie.name()
+	for i in range(NbdeSaison(serie.serie_identifiant)):
 		found = False
 		for existing_season in saisons_creees : 
 			if existing_season.season_text == (thename +" Saison "+str(i+1)):
 				l.append(existing_season)
 				found = True
 		if not found : 		
-			l.append(notreserie.season_set.create(season_text = thename+" Saison "+str(i+1), season_number = i+1))
-	return render(request, 'webseries/listSaison.html', {'serie': notreserie, 'account' : account})
+			l.append(serie.season_set.create(season_text = thename+" Saison "+str(i+1), season_number = i+1))
+	return render(request, 'webseries/listSaison.html', {'serie': serie, 'account' : account})
 
 def ajoutCompte(request,nomdutexte='lol'):
 	nomdutexte = request.POST['username']
@@ -58,4 +58,16 @@ def listEpisode(request,account_id, serie_id,season_id):
 	account = get_object_or_404(Account, pk=account_id)
 	serie = get_object_or_404(Serie, pk=serie_id)
 	season = get_object_or_404(Season,pk=season_id)
-	return render(request, 'webseries/listEpisode.html', {'serie': serie, 'account' : account, 'season': season})
+	episodes_crees = Episode.objects.all().filter(season = season)
+	l = []
+	thename = 'charles'
+	for i in range(NbdEpisodes(serie.serie_identifiant,season.season_number)):
+		l.append(serie.season.episode_set.create(episode_text = " Episode "+str(i+1), episode_number = i+1))
+	return render(request, 'webseries/listEpisode.html', {'serie': serie, 'account' : account, 'season':season})
+
+def Episode(request,account_id, serie_id,season_id, episode_id):
+	account = get_object_or_404(Account, pk=account_id)
+	serie = get_object_or_404(Serie, pk=serie_id)
+	season = get_object_or_404(Season,pk=season_id)
+	episode = get_object_or_404(Episode,pk=episode_id)
+	return render(request, 'webseries/Episode.html', {'serie': serie, 'account' : account, 'season': season, 'episode': episode})

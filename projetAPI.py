@@ -1,5 +1,3 @@
-#Taisez-vous les enfants. Bisous
-
 import json
 import urllib.request
 import smtplib
@@ -47,17 +45,19 @@ def nomSaison(idSerie, idSaison):
     resultat = js["name"] 
     return resultat
 
-def numSaisonjson(idSerie, idSaison):
-    """Renvoie un entier correspondant au numéro de la saison de la série"""
-    js = JSSaison(idSerie, idSaison)
-    return(int(js["season_number"]))
-
 def photoSaison(idSerie, numSaison):
     """Renvoie un lien html avec la photo de la saison au format jpg"""
     js = JSSaison(idSerie, numSaison)
     path = js["poster_path"]
     urllink = "https://image.tmdb.org/t/p/w500/"+str(path) 
     return urllink
+
+def NbdEpisodes(idSerie, numSaison):
+    """Renvoie un entier correspondant aux nombres d'épisodes de la saison de la série"""
+    js = JSserie(idSerie)
+    res = js["seasons"]["season_number"==numSaison]["episode_count"]
+    return res
+    # return(int(js["episode_count"]))
     
 def JSSaison(idSerie,numSaison, key = key):
     """Renvoie un JSON qui donne l'ensemble des épisodes de cette saison pour cette série"""
@@ -65,6 +65,19 @@ def JSSaison(idSerie,numSaison, key = key):
     data = urllib.request.urlopen(urllink).read()
     js = json.loads(data.decode())
     return js 
+
+def JSEpisode(idSerie,numSaison, idEpisode, key = key):
+    """Renvoie un JSON qui donne l'épisode de cette saison pour cette série"""
+    urllink = "https://api.themoviedb.org/3/tv/"+str(idSerie)+"/season/"+str(numSaison)+"/episode/"+str(idEpisode)+"?api_key="+key
+    data = urllib.request.urlopen(urllink).read()
+    js = json.loads(data.decode())
+    return js 
+
+def nameEpisode(idSerie, idSaison, idEpisode):
+    """Renvoie le nom de l episode"""
+    js = JSEpisode(idSerie, idSaison,idEpisode)
+    resultat = js["name"] 
+    return resultat
 
 def isnew(airdate):     
     """Renvoie un booleen : Vrai si airdate > today. Airdate est de la forme 'YYYY-MM-DD' """
@@ -84,11 +97,11 @@ def NextEpisode(idSerie):
     """Retourne un dictionnaire renvoyant les infos du prochain épisode de la série s'il existe. Retourne un dictionnaire vide sinon"""
     numLastSeason = NbdeSaison(idSerie)
     lastSeason = ensembleEpisode(idSerie,numLastSeason, key = key)
-    next_episode = {"air_date" : "'1900-01-01"}
+    next_episode = {"air_date" : "'1970-01-01"}
     for episode in lastSeason["episodes"]:
         if ( (isnew(episode["air_date"])) and (next_episode["air_date"] == "aucune") ) or ( isnew(episode["air_date"]) and compare(next_episode["air_date"],episode["air_date"])) :
             next_episode = episode
-    if next_episode == {"air_date" : "'1900-01-01"}:
+    if next_episode == {"air_date" : "'1970-01-01"}:
         next_episode ={}
     return next_episode
     
