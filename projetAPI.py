@@ -73,11 +73,11 @@ def JSEpisode(idSerie,numSaison, idEpisode, key = key):
     js = json.loads(data.decode())
     return js 
 
-def nameEpisode(idSerie, idSaison, idEpisode):
-    """Renvoie le nom de l episode"""
-    js = JSEpisode(idSerie, idSaison,idEpisode)
-    resultat = js["name"] 
-    return resultat
+# def nameEpisode(idSerie, idSaison, idEpisode):
+#     """Renvoie le nom de l episode"""
+#     js = JSEpisode(idSerie, idSaison,idEpisode)
+#     resultat = js["name"] 
+#     return resultat
 
 def isnew(airdate):     
     """Renvoie un booleen : Vrai si airdate > today. Airdate est de la forme 'YYYY-MM-DD' """

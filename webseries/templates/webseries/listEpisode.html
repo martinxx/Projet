@@ -9,7 +9,7 @@
 {% if season.listEpisode %}
     <ul>
     {% for episode in season.episode_set.all %}
-       <li><a href="www.google.fr"> test </a></li>
+       <li><a href="/webseries/{{ account.id }}/serie/{{ serie.id }}/season/{{ season.id }}/episode/{{ episode.id }}"> {{episode.episodeName}} </a></li>
     {% endfor %}
     </ul>
 {% else %}

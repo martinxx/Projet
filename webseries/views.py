@@ -58,14 +58,21 @@ def listEpisode(request,account_id, serie_id,season_id):
 	account = get_object_or_404(Account, pk=account_id)
 	serie = get_object_or_404(Serie, pk=serie_id)
 	season = get_object_or_404(Season,pk=season_id)
-	episodes_crees = Episode.objects.all().filter(season = season)
+	episode_creees = Episode.objects.filter(season = season)
+	print(episode_creees)
 	l = []
-	thename = 'charles'
+	#thename = season.seasonName() 		
 	for i in range(NbdEpisodes(serie.serie_identifiant,season.season_number)):
-		l.append(serie.season.episode_set.create(episode_text = " Episode "+str(i+1), episode_number = i+1))
+		found = False
+		for existing_episod in episode_creees : 
+			if existing_episod.episode_text == (" Episode "+str(i+1)):
+				l.append(existing_episod)
+				found = True
+		if not found :
+			l.append(season.episode_set.create(episode_text = " Episode "+str(i+1), episode_number = i+1))
 	return render(request, 'webseries/listEpisode.html', {'serie': serie, 'account' : account, 'season':season})
 
-def Episode(request,account_id, serie_id,season_id, episode_id):
+def episod(request,account_id, serie_id,season_id, episode_id):
 	account = get_object_or_404(Account, pk=account_id)
 	serie = get_object_or_404(Serie, pk=serie_id)
 	season = get_object_or_404(Season,pk=season_id)

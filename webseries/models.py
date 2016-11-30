@@ -89,10 +89,10 @@ class Episode(models.Model):
     episode_number = models.IntegerField(default = 0)
 
     def episodeName(self):
-        return nameEpisode(self.season.season_id, self.episode_number)
+        return "Season " + str(self.season.season_number)+" Episode " +str(self.episode_number)
 
     def __str__(self):
-        return self.episode_text+str(   self.episode_number)
+        return self.episode_text+str(self.episode_number)
 
 
 
