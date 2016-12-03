@@ -1,11 +1,11 @@
 <HTML>
  <HEAD>
-  <TITLE>Titre de la page</TITLE>
+  <TITLE>Series selection</TITLE>
  </HEAD>
 
  <BODY>
  
-<h1> Par {{ serie_name }}, vous entendez sans doute l'une des séries suivantes : </h1>
+<h1> By typing {{ serie_name }}, you mean one of the following series : </h1>
 
 {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
 
@@ -15,7 +15,10 @@
     <input type="radio" name="nameserie" id="idserie" value="{{ idserie }}" />
     <label for="idserie">{{ nameserie }}</label><br />
 {% endfor %}
-<input type="submit" value="Choisi la série à ajouter" />
+<input type="submit" value="Choose the serie to add" />
 </form>
     </BODY>
 </HTML>
+
+ </body>
+</html>

@@ -1,9 +1,20 @@
-<p> Compte ajouté : {{compte_ajoute.account_text}} </p>
+{% load staticfiles %}
+<html>
+    <head>
+        <title>Add Account</title>
+        <link rel="stylesheet" href="{% static 'css/webseries.css' %}">
+    </head>
+<body>
+
+<h3> Account added : {{compte_ajoute.account_text}} </h3>
 <div>
 
-<a href="{% url 'index' %}" > Retour à l'accueil  </a>
+<a href="{% url 'index' %}" > Back to home  </a>
 </div>
 
 <div>
-<a href="{% url 'listSerie' compte_ajoute.id %}"> Se rendre sur mon nouveau compte : {{ compte_ajoute.account_text }}</a>
+<a href="{% url 'listSerie' compte_ajoute.id %}"> Account page : {{ compte_ajoute.account_text }}</a>
 </div>
+
+ </body>
+</html>

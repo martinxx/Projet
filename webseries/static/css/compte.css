@@ -1,8 +1,10 @@
 html, body {
- margin: 0px;
- padding: 10px;
+ margin: 0;
+ padding: 0;
  }
 body {
+ background-color: yellow;
+ background-image:url("photo.png"); 
  background-repeat:no-repeat;
  background-position:50% -50%;
  font-family: Verdana, sans-serif; 
@@ -15,16 +17,23 @@ h1 {
  }
 h2 {
  font-size: 150%; 
- color: navy; 
+ color: red; 
  padding-left: 15px;
  }
 p,ul,li,td {
  color: black; 
  }
-img {
-display: block;
-margin: 0 auto;
-height: 280px; /* spécifiez la hauteur de l'image, une bonne attitude à prendre */
-width: 210px; /* spécifiez la largeur de l'image, une bonne habitude à prendre */
-
-} 
+a:link {
+ color: green;
+ text-decoration: underline;
+ }
+a:visited {
+ color: gray;
+ }
+a:hover {
+ color: red;
+ text-decoration: none;
+}
+a:active, a:focus {
+ color: red;
+}

@@ -1,4 +1,13 @@
-<h1>Compte de {{ account.account_text }}</h1>
+{% load staticfiles %}
+<html>
+    <head>
+        <title>Followed Series</title>
+        <link rel="stylesheet" href="{% static 'css/webseries.css' %}">
+    </head>
+<body>
+
+<h1>{{ account.account_text }}'s account</h1>
+
 
 {% if account.serie_set.all %}
     <ul>
@@ -14,12 +23,15 @@
 <form action="ajoutSerie/" method="post">
 {% csrf_token %}
     <div>
-        <label for="nom">Nom de la série à ajouter :</label>
-        <input type="text" id="nom" name="serie_name"/>
-    <input type="submit" value="Ajouter Série" />
+        <label for="nom">Series to add :</label>
+        <input type="text" id="nom" name="serie_name" placeholder="your search"/>
+    <input type="submit" value="Add Series" />
 </form>
 
 <div>
 
-<a href="{% url 'index' %}" > Retour à l'accueil  </a>
+<a href="{% url 'index' %}" > Go back home  </a>
 </div>
+
+ </body>
+</html>

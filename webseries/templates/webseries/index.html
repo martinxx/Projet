@@ -1,11 +1,11 @@
 {% load staticfiles %}
 <html>
     <head>
-        <title>Page d'accueil</title>
+        <title>Homepage Webseries</title>
         <link rel="stylesheet" href="{% static 'css/webseries.css' %}">
     </head>
 <body>
-<h1> Page d'accueil </h1>
+<h1> HomePage Webseries </h1>
 
 
 {% if account_list %}
@@ -21,9 +21,9 @@
 <form action="ajoutCompte/" method="post">
 {% csrf_token %}
     <div>
-        <label for="nom">Nom du compte  :</label>
-        <input type="text" id="nom" name="username"/>
-    <input type="submit" value="Ajouter Compte" />
+        <label for="nom">New account :</label>
+        <input type="text" id="nom" name="username" placeholder="Your name" />
+    <input type="submit" value="Add account" />
 </form>
 
  </body>

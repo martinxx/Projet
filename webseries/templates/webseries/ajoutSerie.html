@@ -1,5 +1,17 @@
-<p> Série ajoutée : {{serie_ajoutee.name}} </p>
+{% load staticfiles %}
+<html>
+    <head>
+        <title>Add Series</title>
+        <link rel="stylesheet" href="{% static 'css/webseries.css' %}">
+    </head>
+<body>
+
+<p> Added series : {{serie_ajoutee.name}} </p>
 <div>
 
-<a href="{% url 'index' %}" > Retour à l'accueil  </a>
+<a href="{% url 'index' %}" > Back to home  </a>
 </div>
+
+
+ </body>
+</html>

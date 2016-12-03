@@ -1,11 +1,20 @@
-<h2>{{season.season_text}}</h2>
+{% load staticfiles %}
+<html>
+    <head>
+        <title>Season details</title>
+        <link rel="stylesheet" href="{% static 'css/webseries.css' %}">
+    </head>
+<body>
 
-<h3>{{season.season_number}}</h3>
+<h1>{{season.season_text}}</h1>
 
-<h3>{{season.seasonName}}</h3>
 
 <img src={{season.photo2}} width="100"  height="160" alt= {{serie.name}} title="{{serie.name}}"/>
 
+<h4> Overview </h4>
+<p>{{season.overview2}}</p>
+
+<h4> Episodes </h4>
 {% if season.listEpisode %}
     <ul>
     {% for episode in season.episode_set.all %}
@@ -17,5 +26,6 @@
 {% endif %}
 
 
-<p>{{season.overview2}}</p>
-<h1> charles </h1>
+
+ </body>
+</html>

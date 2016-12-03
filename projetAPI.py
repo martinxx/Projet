@@ -96,14 +96,15 @@ def compare (date1,date2):
 def NextEpisode(idSerie):
     """Retourne un dictionnaire renvoyant les infos du prochain épisode de la série s'il existe. Retourne un dictionnaire vide sinon"""
     numLastSeason = NbdeSaison(idSerie)
-    lastSeason = ensembleEpisode(idSerie,numLastSeason, key = key)
-    next_episode = {"air_date" : "'1970-01-01"}
+    lastSeason = JSSaison(idSerie,numLastSeason, key = key)
+    next_episode = {"air_date" : "3000-01-01" }
     for episode in lastSeason["episodes"]:
-        if ( (isnew(episode["air_date"])) and (next_episode["air_date"] == "aucune") ) or ( isnew(episode["air_date"]) and compare(next_episode["air_date"],episode["air_date"])) :
+        if (isnew(episode["air_date"]) and compare(next_episode["air_date"] , episode["air_date"])) :
             next_episode = episode
-    if next_episode == {"air_date" : "'1970-01-01"}:
-        next_episode ={}
-    return next_episode
+    if (next_episode["air_date"]) == "3000-01-01" :
+        return "Sorry, no new episode available"
+    else:
+        return "Next episode: "+ next_episode["name"] + " , air date : " + next_episode["air_date"]
     
 
 def envoiMail(destinataire,msg,expediteur = "webseriespython5@gmail.com"):

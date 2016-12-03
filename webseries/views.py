@@ -22,28 +22,34 @@ def listSaison(request,account_id, serie_id):
 	for i in range(NbdeSaison(serie.serie_identifiant)):
 		found = False
 		for existing_season in saisons_creees : 
-			if existing_season.season_text == (thename +" Saison "+str(i+1)):
+			if existing_season.season_text == (thename +" Season "+str(i+1)):
 				l.append(existing_season)
 				found = True
 		if not found : 		
-			l.append(serie.season_set.create(season_text = thename+" Saison "+str(i+1), season_number = i+1))
+			l.append(serie.season_set.create(season_text = thename+" Season "+str(i+1), season_number = i+1))
 	return render(request, 'webseries/listSaison.html', {'serie': serie, 'account' : account})
 
-def ajoutCompte(request,nomdutexte='lol'):
+def ajoutCompte(request,nomdutexte=''):
 	nomdutexte = request.POST['username']
-	compte_ajoute = Account.objects.create(account_text =nomdutexte)
-	context = {'compte_ajoute': compte_ajoute}
-	return render(request, 'webseries/ajoutCompte.html', context)
+	if nomdutexte == "":
+		return render(request, 'webseries/ajoutCompteechec.html')
+	else:
+		compte_ajoute = Account.objects.create(account_text =nomdutexte)
+		context = {'compte_ajoute': compte_ajoute}
+		return render(request, 'webseries/ajoutCompte.html', context)
 	
 
 def ajoutSerie(request,account_id,user_input='How I Met'):
 	user_input = request.POST['serie_name']
-	json = recherche(user_input)
-	possibleseries = []
-	for onepossibleserie in json["results"]:
-		possibleseries.append(([ onepossibleserie["id"] ],onepossibleserie["original_name"]))
-	account = get_object_or_404(Account, pk=account_id)
-	return render(request, 'webseries/SelectionSerie.html', {'seriesdic': possibleseries , 'serie_name': user_input})
+	if user_input == "":
+		return render(request,'webseries/SelectionSerieechec.html')
+	else:
+		json = recherche(user_input)
+		possibleseries = []
+		for onepossibleserie in json["results"]:
+			possibleseries.append(([ onepossibleserie["id"] ],onepossibleserie["original_name"]))
+		account = get_object_or_404(Account, pk=account_id)
+		return render(request, 'webseries/SelectionSerie.html', {'seriesdic': possibleseries , 'serie_name': user_input})
 	
 def SelectionSerie(request, account_id ):
 	account = get_object_or_404(Account, pk=account_id)
