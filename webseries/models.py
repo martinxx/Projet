@@ -102,8 +102,26 @@ class Episode(models.Model):
 	def episodeName(self):
 		return "Season " + str(self.season.season_number)+" Episode " +str(self.episode_number)
 
+<<<<<<< Updated upstream
 	def __str__(self):
 		return self.episode_text+str(self.episode_number)
+=======
+    def episodeName2(self):
+        return JSEpisode(self.season.serie.serie_identifiant, self.season.season_number, self.episode_number)["name"]
+
+    def overview_episode(self):
+        res = JSEpisode(self.season.serie.serie_identifiant,self.season.season_number, self.episode_number)["overview"]
+        if res =="":
+            return "Sorry, no overview was available in our database"
+        else : 
+            return res
+
+    def photo_episode(self):
+         return photoEpisode(self.season.serie.serie_identifiant,self.season.season_number, self.episode_number)
+
+    def __str__(self):
+        return self.episode_text+str(self.episode_number)
+>>>>>>> Stashed changes
 
 
 
