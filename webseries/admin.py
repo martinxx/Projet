@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-# Register your models here.
+"""liste des modèles dont on peut modifier les instances "à la main" en tant qu'admin"""
 
 from .models import Account,Serie,Season, Episode
 
