@@ -1,3 +1,5 @@
+"""Ce fichier contient toutes nos fonctions en lien avec l'API (pour générer et exploiter des dictionnaires JSON)"""
+
 import json
 import urllib.request
 import smtplib

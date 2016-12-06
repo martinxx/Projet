@@ -1,19 +1,22 @@
 from django.shortcuts import render, HttpResponse, get_object_or_404
 from .models import Account,Serie,Season, Episode
 from projetAPI import *
-# Create your views here.
+"""Ce fichier contient nos vues"""
 
 def index(request):
-    account_list = Account.objects.all
-    context = {'account_list': account_list}
-    return render(request, 'webseries/index.html', context)
+	"""Notre index est constitué de la liste des comptes utilisateurs"""
+	account_list = Account.objects.all
+	context = {'account_list': account_list}
+	return render(request, 'webseries/index.html', context)
 
 def listSerie(request, account_id):
-    account = get_object_or_404(Account, pk=account_id)
-    return render(request, 'webseries/listSerie.html', {'account': account})
+	"""Génère la liste des séries suivies par un compte donné"""
+	account = get_object_or_404(Account, pk=account_id)
+	return render(request, 'webseries/listSerie.html', {'account': account})
 
 
 def listSaison(request,account_id, serie_id):
+	"""Génère la liste des saisons d'une série donnée"""
 	account = get_object_or_404(Account, pk=account_id)
 	serie = get_object_or_404(Serie, pk=serie_id)
 	saisons_creees = Season.objects.all().filter(serie = serie)
@@ -30,6 +33,7 @@ def listSaison(request,account_id, serie_id):
 	return render(request, 'webseries/listSaison.html', {'serie': serie, 'account' : account})
 
 def ajoutCompte(request,nomdutexte=''):
+	"""Fonction de création d'un nouveau compte utilisateur"""
 	nomdutexte = request.POST['username']
 	if nomdutexte == "":
 		return render(request, 'webseries/ajoutCompteechec.html')
@@ -39,7 +43,9 @@ def ajoutCompte(request,nomdutexte=''):
 		return render(request, 'webseries/ajoutCompte.html', context)
 	
 
-def ajoutSerie(request,account_id,user_input='How I Met'):
+def ajoutSerie(request,account_id,user_input='Dummy'):
+	"""Fonction pour ajouter une nouvelle série"""
+	"""La fonction va rechercher grâce à l'API la liste des séries dont le nom correspond à l'entrée de l'utilisateur"""
 	user_input = request.POST['serie_name']
 	if user_input == "":
 		return render(request,'webseries/SelectionSerieechec.html')
@@ -55,22 +61,21 @@ def ajoutSerie(request,account_id,user_input='How I Met'):
 			return render(request, 'webseries/SelectionSerie.html', {'seriesdic': possibleseries , 'serie_name': user_input})
 	
 def SelectionSerie(request, account_id ):
+	"""Fonction qui permet à l'utilisateur de sélectionner la série qui l'intéresse parmis les choix proposés"""
 	account = get_object_or_404(Account, pk=account_id)
-	"""numserie = account.choice_set.get(pk=request.POST['choice'])"""
 	numseriebrut = request.POST['nameserie']
 	numserie = int(numseriebrut[1:(len(numseriebrut)-1)])
 	serie_ajoutee = account.serie_set.create(serie_identifiant = numserie)
-	#Toujours retourner un HttpResponseRedirect si รงa marche bien avec POST data(pour ne pas permettre de poster deux fois)
 	return render(request, 'webseries/ajoutSerie.html', {'serie_ajoutee': serie_ajoutee})
 
 def listEpisode(request,account_id, serie_id,season_id):
+	"""Génère la liste des épisodes pour une saison donnée """
 	account = get_object_or_404(Account, pk=account_id)
 	serie = get_object_or_404(Serie, pk=serie_id)
 	season = get_object_or_404(Season,pk=season_id)
 	episode_creees = Episode.objects.filter(season = season)
 	print(episode_creees)
 	l = []
-	#thename = season.seasonName() 		
 	for i in range(NbdEpisodes(serie.serie_identifiant,season.season_number)):
 		found = False
 		for existing_episod in episode_creees : 
@@ -82,6 +87,7 @@ def listEpisode(request,account_id, serie_id,season_id):
 	return render(request, 'webseries/listEpisode.html', {'serie': serie, 'account' : account, 'season':season})
 
 def episod(request,account_id, serie_id,season_id, episode_id):
+	"""Renvoit sur la page html de l'épisode demandé"""
 	account = get_object_or_404(Account, pk=account_id)
 	serie = get_object_or_404(Serie, pk=serie_id)
 	season = get_object_or_404(Season,pk=season_id)
