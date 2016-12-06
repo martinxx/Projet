@@ -57,9 +57,8 @@ def photoSaison(idSerie, numSaison):
 
 def NbdEpisodes(idSerie, numSaison):
     """Renvoie un entier correspondant aux nombres d'épisodes de la saison de la série"""
-    js = JSserie(idSerie)
-    res = js["seasons"]["season_number"==numSaison]["episode_count"]
-    return res
+    js = JSSaison(idSerie, numSaison)
+    return len(js["episodes"])
     # return(int(js["episode_count"]))
     
 def JSSaison(idSerie,numSaison, key = key):
