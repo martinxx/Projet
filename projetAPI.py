@@ -117,7 +117,12 @@ def NextEpisode(idSerie):
         return "Sorry, no new episode available"
     else:
         return "Next episode: "+ next_episode["name"] + " , air date : " + next_episode["air_date"]
-    
+
+def hasNextEpisode(idSerie):
+    if NextEpisode(idSerie)=="Sorry, no new episode available":
+        return  False
+    else:
+        return True
 
 def envoiMail(destinataire,msg,expediteur = "webseriespython5@gmail.com"):
     """Envoie un mail sans objet au destinaire avec l'adresse webserie"""
