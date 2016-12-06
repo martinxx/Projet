@@ -24,7 +24,4 @@ p,ul,li,td {
 img {
 display: block;
 margin: 0 auto;
-height: 280px; /* spécifiez la hauteur de l'image, une bonne attitude à prendre */
-width: 210px; /* spécifiez la largeur de l'image, une bonne habitude à prendre */
-
 } 
