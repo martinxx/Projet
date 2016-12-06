@@ -1,25 +1,26 @@
 import datetime
 from django.db import models
 from django.utils import timezone
-from projetAPI import * # Create your models here.
+from projetAPI import * 
+
+"""Ce fichier comptient l'ensemble de nos classes"""
 
 class Account(models.Model):
+	"""Cette classe représente un compte utilisateur"""
     account_text = models.CharField(max_length=200)
 
     def __str__(self):
         return self.account_text
-    # def Ajout_compte(self,nomCompte):
-    #     Account.objects.create(account_text =nomCompte)
-    #     return nomCompte
-
-
 
 class Serie(models.Model):
+	"""Cette classe représente une série. Elle est nécessairement liée à un compte : 
+	Si Martin et Charles regardent "The Simpsons", il y aura deux instances de classe série concernant "The Simpsons":
+	Une liée au compte de Martin, l'autre liée au compte de Charles."""
     account = models.ForeignKey(Account, on_delete=models.CASCADE)
     serie_identifiant = models.IntegerField(default = 0)
-    #a = str(serie_identifiant)
-    #serie_photo = JSserie(serie_identifiant)
-    
+	
+    """Les méthodes renvoient nom, photo, descriptif de la série et autres informations"""
+	
     def name(self):
         return nom(self.serie_identifiant)
 
@@ -37,6 +38,7 @@ class Serie(models.Model):
             return res
 
     def listSaison(self):
+	"""Renvoit la liste des Saisons (comme des chaînes de caractères, pas des objets saison) de la série"""
         nbSaison = NbdeSaison(self.serie_identifiant)
         l=[]
         for i in range(nbSaison):
@@ -51,16 +53,19 @@ class Serie(models.Model):
         res = []
         for i in range(len(a)):
             res.append(a[i]["name"])
-        #res = JSserie(self.serie_identifiant)["created_by"][0]["name"]
         if len(res) ==0:
             return "Sorry, no creator was in our database"
         else : 
             return ", ".join(res)
 
 class Season(models.Model):
-    serie = models.ForeignKey(Serie, on_delete=models.CASCADE)
+	"""Cette classe représente une saison (avec son numéro de saison notamment).
+	Elle est liée à une instance de classe Série en particulier"""
+	serie = models.ForeignKey(Serie, on_delete=models.CASCADE)
     season_text = models.CharField(max_length=200,default ="Noname")
     season_number = models.IntegerField(default = 0)
+	
+	"""Les méthodes sont sensiblement les mêmes une pour une série"""
 
     def seasonName(self):
         return nomSaison(self.serie.serie_identifiant, self.season_number)
@@ -80,6 +85,7 @@ class Season(models.Model):
             return res
 
     def listEpisode(self):
+		"""Renvoit la liste des épisodes (sous forme de chaîne de caractère, pas les instances de classe Episode) de la saison"""
         nbEpisode = NbdEpisodes(self.serie.serie_identifiant,self.season_number)
         l=[]
         for i in range(nbEpisode):
@@ -87,6 +93,8 @@ class Season(models.Model):
         return l
 
 class Episode(models.Model):
+	"""Cette classe représente un épisode (avec son numéro de saison notamment).
+	Elle est liée à une instance de classe Saison en particulier"""
     season = models.ForeignKey(Season, on_delete=models.CASCADE)
     episode_text = models.CharField(max_length=200,default= "Noname")
     episode_number = models.IntegerField(default = 0)
