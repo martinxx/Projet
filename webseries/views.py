@@ -49,7 +49,10 @@ def ajoutSerie(request,account_id,user_input='How I Met'):
 		for onepossibleserie in json["results"]:
 			possibleseries.append(([ onepossibleserie["id"] ],onepossibleserie["original_name"]))
 		account = get_object_or_404(Account, pk=account_id)
-		return render(request, 'webseries/SelectionSerie.html', {'seriesdic': possibleseries , 'serie_name': user_input})
+		if possibleseries == []:
+			return render(request, 'webseries/SelectionSerieechec.html')
+		else:
+			return render(request, 'webseries/SelectionSerie.html', {'seriesdic': possibleseries , 'serie_name': user_input})
 	
 def SelectionSerie(request, account_id ):
 	account = get_object_or_404(Account, pk=account_id)
