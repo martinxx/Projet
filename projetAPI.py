@@ -4,10 +4,11 @@ import smtplib
 from datetime import date
 from django.db import models
 
-key = "5c3fde1ab28b3cb007c61d944b4d4c94"
+key = "5c3fde1ab28b3cb007c61d944b4d4c94" 
+"""cette clé gratuite pour accéder à l'api themoviedb nous autorise à 1000 requêtes par jour """ 
 
 def recherche(nomvoulu, key = key):
-    """Renvoie un JSON qui correspond à l'ensemble des séries ayant ce nom """
+    """Renvoie un JSON qui correspond à l'ensemble des séries ayant un nom proche de l'entrée """
     nom = urllib.parse.quote(nomvoulu)
     urllink = 'https://api.themoviedb.org/3/search/tv?api_key='+key+'&query='+nom
     data = urllib.request.urlopen(urllink).read()
@@ -73,28 +74,30 @@ def JSEpisode(idSerie,numSaison, idEpisode, key = key):
     js = json.loads(data.decode())
     return js 
 
-# def nameEpisode(idSerie, idSaison, idEpisode):
-#     """Renvoie le nom de l episode"""
-#     js = JSEpisode(idSerie, idSaison,idEpisode)
-#     resultat = js["name"] 
-#     return resultat
+def nameEpisode(idSerie, idSaison, idEpisode):
+	"""Renvoie le nom de l episode"""
+	js = JSEpisode(idSerie, idSaison,idEpisode)
+	resultat = js["name"] 
+	return resultat
 
 def isnew(airdate):     
-    """Renvoie un booleen : Vrai si airdate > today. Airdate est de la forme 'YYYY-MM-DD' """
-    l = airdate.split("-")
-    episodedate = date(int(l[0]), int(l[1]), int(l[2]))
-    return episodedate >= date.today()
+	"""Renvoie un booleen : Vrai si airdate > today. Airdate est de la forme 'YYYY-MM-DD' """
+	"""Cette fonction sert à tester si un épisode a déjà été diffusé ou pas"""
+	l = airdate.split("-")
+	episodedate = date(int(l[0]), int(l[1]), int(l[2]))
+	return episodedate >= date.today()
 
 def compare (date1,date2):   
-    """Fonction qui compare deux dates (deux épisodes pas encore diffusés => Cherche le prochain)"""
-    premiereliste = date1.split("-")
-    deuxiemeliste = date2.split ("-")
-    episodedate1 = date(int(premiereliste[0]), int(premiereliste[1]), int(premiereliste[2]))
-    episodedate2 = date(int( deuxiemeliste[0]), int( deuxiemeliste[1]), int( deuxiemeliste[2]))
-    return episodedate1 > episodedate2
+	"""Fonction qui compare deux dates (afin de choisir l'épisode le moins récent qui n'a pas encore été diffusé)"""
+	"""Si la base de données contient deux épisodes non diffusé, on ne déclenche une alerte que sur le prochain"""
+	premiereliste = date1.split("-")
+	deuxiemeliste = date2.split ("-")
+	episodedate1 = date(int(premiereliste[0]), int(premiereliste[1]), int(premiereliste[2]))
+	episodedate2 = date(int( deuxiemeliste[0]), int( deuxiemeliste[1]), int( deuxiemeliste[2]))
+	return episodedate1 > episodedate2
 
 def NextEpisode(idSerie):
-    """Retourne un dictionnaire renvoyant les infos du prochain épisode de la série s'il existe. Retourne un dictionnaire vide sinon"""
+    """Retourne un dictionnaire renvoyant les informations du prochain épisode de la série s'il existe. Retourne un dictionnaire vide sinon"""
     numLastSeason = NbdeSaison(idSerie)
     lastSeason = JSSaison(idSerie,numLastSeason, key = key)
     next_episode = {"air_date" : "3000-01-01" }
