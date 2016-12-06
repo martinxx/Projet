@@ -8,7 +8,21 @@
 
 <h1>{{ account.account_text }}'s account</h1>
 
+<h3> Notifications</h3>
 
+{% if account.serie_set.all %}
+    <ul>
+    {% for serie in account.serie_set.all %}
+    {% if serie.hasNouveauEpisode %}
+       <li> {{ serie.name }} : {{serie.NouveauEpisode}}</li>
+       {% endif %}
+    {% endfor %}
+    </ul>
+{% else %}
+    <p> You don't have any notifications</p>
+{% endif %}
+
+<h3> Followed Series</h3>
 {% if account.serie_set.all %}
     <ul>
     {% for serie in account.serie_set.all %}

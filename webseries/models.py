@@ -48,6 +48,9 @@ class Serie(models.Model):
 	def NouveauEpisode(self):
 			return NextEpisode(self.serie_identifiant)
 
+	def hasNouveauEpisode(self):
+		return hasNextEpisode(self.serie_identifiant)
+
 	def creator(self):
 		a = JSserie(self.serie_identifiant)["created_by"]
 		res = []
