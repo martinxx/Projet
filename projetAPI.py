@@ -78,9 +78,16 @@ def JSEpisode(idSerie,numSaison, idEpisode, key = key):
 
 def nameEpisode(idSerie, idSaison, idEpisode):
 	"""Renvoie le nom de l episode"""
-	js = JSEpisode(idSerie, idSaison,idEpisode)
+	js = JSEpisode(idSerie, idSaison, idEpisode)
 	resultat = js["name"] 
 	return resultat
+
+def photoEpisode(idSerie, idSaison, idEpisode):
+    """Renvoie un lien html avec la photo de l episode au format jpg"""
+    js = JSEpisode(idSerie, idSaison, idEpisode)
+    path = js["still_path"]
+    urllink = "https://image.tmdb.org/t/p/w500/"+str(path) 
+    return urllink
 
 def isnew(airdate):     
 	"""Renvoie un booleen : Vrai si airdate > today. Airdate est de la forme 'YYYY-MM-DD' """

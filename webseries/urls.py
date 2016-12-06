@@ -2,6 +2,8 @@ from django.conf.urls import url
 
 from . import views
 
+"""Ce fichier comptient les urls de nos différentes pages (il fait le lien entre les vues et les pages html"""
+
 urlpatterns = [
     url(r'^$', views.index, name='index'),
 	#ex: /webseries/
