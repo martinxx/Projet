@@ -74,7 +74,6 @@ def listEpisode(request,account_id, serie_id,season_id):
 	serie = get_object_or_404(Serie, pk=serie_id)
 	season = get_object_or_404(Season,pk=season_id)
 	episode_creees = Episode.objects.filter(season = season)
-	print(episode_creees)
 	l = []
 	for i in range(NbdEpisodes(serie.serie_identifiant,season.season_number)):
 		found = False
